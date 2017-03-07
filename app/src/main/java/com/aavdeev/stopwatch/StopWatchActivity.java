@@ -11,12 +11,26 @@ public class StopWatchActivity extends AppCompatActivity {
     private int seconds = 0;
     private boolean running;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stopwatch);
+        if (savedInstanceState != null) {
+            seconds = savedInstanceState.getInt("seconds");
+            running = savedInstanceState.getBoolean("running");
+        }
         runTimer();
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle SaveInstanceState) {
+        SaveInstanceState.putInt("seconds", seconds);
+        SaveInstanceState.putBoolean("running", running);
+    }
+
+
 
     public void onClickStart(View view) {
         running = true;
@@ -31,6 +45,7 @@ public class StopWatchActivity extends AppCompatActivity {
         running = false;
         seconds = 0;
     }
+
 
     private void runTimer() {
         final TextView timeView = (TextView) findViewById(R.id.time_view);

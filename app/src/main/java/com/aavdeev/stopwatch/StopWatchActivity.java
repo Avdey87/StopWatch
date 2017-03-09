@@ -10,7 +10,7 @@ public class StopWatchActivity extends AppCompatActivity {
 
     private int seconds = 0;
     private boolean running;
-
+    private boolean wasRunning;
 
 
     @Override
@@ -20,6 +20,7 @@ public class StopWatchActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
             running = savedInstanceState.getBoolean("running");
+            wasRunning = savedInstanceState.getBoolean("wasRunning");
         }
         runTimer();
     }
@@ -28,9 +29,23 @@ public class StopWatchActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle SaveInstanceState) {
         SaveInstanceState.putInt("seconds", seconds);
         SaveInstanceState.putBoolean("running", running);
+        SaveInstanceState.getBoolean("wasRunning", wasRunning);
+
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        wasRunning = running;
+        running = false;
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (wasRunning){
+        running = true;}
+    }
 
     public void onClickStart(View view) {
         running = true;
